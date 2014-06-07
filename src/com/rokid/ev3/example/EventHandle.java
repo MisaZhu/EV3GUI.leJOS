@@ -6,7 +6,7 @@ import com.rokid.ev3.gui.*;
 
 class EHandler implements EventHandler {
 	Desktop desktop;
-
+	
 	EHandler(Desktop desktop) {
 		this.desktop = desktop;
 	}
@@ -26,7 +26,7 @@ class EHandler implements EventHandler {
 	}
 }
 
-public class Demo {
+public class EventHandle {
 	public static int light = 0;
 	public static boolean stopped = false;
 
