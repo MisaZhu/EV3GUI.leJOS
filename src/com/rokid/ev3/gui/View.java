@@ -65,10 +65,10 @@ public class View extends Canvas {
 	}
 	
 	protected void unfocus() {
-		if(!visable() || !focused())
+		if(!visable() || !focused() || father == null)
 			return;
 		
-		Desktop.focus(father);
+		father.focus(null);
 	}
 	
 	public Container getFather() {
@@ -101,18 +101,35 @@ public class View extends Canvas {
 	}
 	
 	public void focus() {
-		if(visable())
-			Desktop.focusedView = this;
+		if(!visable())
+			return;
+		
+		Container f = father;
+		View v = this;
+		
+		while(f != null){
+			f.focus(v);
+			v = f;
+			f = f.father;
+		}
 	}
 	
 	public boolean focused() {
-		View f = Desktop.focusedView;
-		while(f != null) {
-			if(f == this)
-				return true;
+		if(!visable())
+			return false;
+		
+		Container f = father;
+		View v = this;
+		
+		while(f != null){
+			if(f.focusedView != v)
+				return false;
+			
+			v = f;
 			f = f.father;
+			
 		}
-		return false;
+		return true;
 	}
 	
 	public void resizeTo(int w, int h) {

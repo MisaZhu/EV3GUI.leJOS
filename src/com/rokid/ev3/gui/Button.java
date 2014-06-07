@@ -32,10 +32,12 @@ public class Button extends View {
 		int w = getWidth();
 		int h = getHeight();
 
-		drawRoundRect(g, 0, 0, w, h, 8, 8);
+		drawRoundRect(g, 0, 0, w-1, h-1, 8, 8);
 		
 		if(focused()) {
-			drawRoundRect(g, 3, 3, w-6, h-6, 6, 6);
+			g.setStrokeStyle(GraphicsLCD.DOTTED);
+			drawRoundRect(g, 3, 3, w-7, h-7, 6, 6);
+			g.setStrokeStyle(GraphicsLCD.SOLID);
 		}
 	}
 	

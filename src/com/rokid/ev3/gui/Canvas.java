@@ -108,4 +108,11 @@ public abstract class Canvas {
 	protected void drawImage(GraphicsLCD g, Image img, int x, int y, int anchor) {
 		g.drawImage(img, x+getAX(), y+getAY(), anchor);
 	}
+
+	protected void drawLine(GraphicsLCD g, int x0, int y0, int x1, int y1) {
+		int ax = getAX();
+		int ay = getAY();
+		
+		g.drawLine(x0+ax, y0+ay, x1+ax, y1+ay);
+	}
 }

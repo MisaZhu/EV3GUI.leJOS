@@ -12,6 +12,7 @@ import lejos.hardware.lcd.GraphicsLCD;
  */
 public class Container extends View {
 	Vector children = null;
+	View focusedView = null;
 	
 	public Container() {
 		alive = true;
@@ -30,6 +31,31 @@ public class Container extends View {
 				v.refresh(g);
 			}
 		}
+	}
+	
+	/**
+	 * Get current focused view within this container.
+	 */
+	public View getFocused() {
+		View v = this;
+		while(true) {
+			if(v instanceof Container) {
+				if(((Container) v).focusedView != null)
+					v = ((Container) v).focusedView;
+				else 
+					return v;
+			}
+			else {
+				return v;
+			}
+		}
+	}
+	
+	/**
+	 * Set current focused view
+	 */
+	void focus(View v) {
+		focusedView = v;
 	}
 
 	/**
@@ -58,10 +84,11 @@ public class Container extends View {
 	 */
 	void focusNext() {
 		int num = children.size();
-		if(Desktop.focusedView == null || num == 0)
+		View focused = this.focusedView;
+		if(focused == null || num == 0)
 			return;
 		
-		int i = children.indexOf(Desktop.focusedView);
+		int i = children.indexOf(focused);
 		if(i < 0)
 			return;
 		
@@ -73,7 +100,7 @@ public class Container extends View {
 				i = 0;
 			View v = (View)children.get(i);
 			if(v != null && v.alive && v.visable) {
-				Desktop.focus(v);
+				focus(v);
 				return;
 			}
 			i++;
@@ -85,10 +112,11 @@ public class Container extends View {
 	 */
 	void focusPre() {
 		int num = children.size();
-		if(Desktop.focusedView == null || num == 0)
+		View focused = this.focusedView;
+		if(focused == null || num == 0)
 			return;
 		
-		int i = children.indexOf(Desktop.focusedView);
+		int i = children.indexOf(focused);
 		if(i < 0)
 			return;
 		
@@ -100,7 +128,7 @@ public class Container extends View {
 				i = num - 1;
 			View v = (View)children.get(i);
 			if(v != null && v.alive && v.visable) {
-				Desktop.focus(v);
+				focus(v);
 				return;
 			}
 			i--;

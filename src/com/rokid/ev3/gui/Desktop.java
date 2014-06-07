@@ -1,5 +1,8 @@
 package com.rokid.ev3.gui;
 
+import java.util.Iterator;
+import java.util.Stack;
+
 import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.lcd.GraphicsLCD;
@@ -15,22 +18,15 @@ public class Desktop {
 	Container root = null;
 	Keyboard kerboard;
 	LED led;
+	Stack popups = null;
 	
 	static Desktop desktop = null;
-	static View focusedView = null;
-	
-	/**
-	 * Set view as focused, so it can catch the keyboard event.
-	 * @param v view will be focused.
-	 */
-	public static void focus(View v) {
-		focusedView = v;
-	}
 
 	Desktop(Brick brick) {
 		this.g = brick.getGraphicsLCD();
 		kerboard = new Keyboard();
 		led = new LED();
+		popups = new Stack();
 	}
 	
 	/**
@@ -71,8 +67,16 @@ public class Desktop {
 	 */
 	public void refresh() {
 		g.clear();
-		if(root != null)
+		if(root != null) {
 			root.refresh(g);
+		}
+		
+		Iterator it = popups.iterator();
+		while(it.hasNext()) {
+			Popup popup = (Popup)it.next();
+			if(popup != null)
+				popup.refresh(g);
+		}
 	}
 	
 	/**
@@ -97,10 +101,21 @@ public class Desktop {
 		int k = desktop.getKeyboard().waitForAnyEvent(); 	
 		Event ev = new Event(Event.KEY, k);
 		
-		if(Desktop.focusedView != null) {
-			ev = Desktop.focusedView.eventHandle(ev);
-		}
+		View focused = null;
 		
+		if(popups.size() > 0) {
+			Popup popup = (Popup)popups.lastElement();
+			if(popup != null) {
+				focused = popup.getFocused();
+				if(focused != null)
+					ev = focused.eventHandle(ev);
+			}
+		}
+		if(ev != null && root != null) {
+			focused = root.getFocused();
+			if(focused != null)
+				ev = focused.eventHandle(ev);
+		}
 		return ev;
 	}
 }

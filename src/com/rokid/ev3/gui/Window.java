@@ -3,7 +3,7 @@ package com.rokid.ev3.gui;
 import lejos.hardware.lcd.Font;
 import lejos.hardware.lcd.GraphicsLCD;
 
-public class Window extends Container {
+public class Window extends Popup {
 	String title;
 	Font fontTitle;
 	Container workspace;
@@ -48,6 +48,10 @@ public class Window extends Container {
 		fillRect(g, 0, 0, w-1, h-1);
 		g.setColor(0, 0, 0);
 		drawRect(g, 0, 0, w-1, h-1);
+		g.setStrokeStyle(GraphicsLCD.DOTTED);
+		drawLine(g, 3, h, w, h);
+		drawLine(g, w, 3, w, h);
+		g.setStrokeStyle(GraphicsLCD.SOLID);
 	}
 
 	protected void drawTitle(GraphicsLCD g) {
@@ -62,13 +66,5 @@ public class Window extends Container {
 	protected void draw(GraphicsLCD g) {
 		drawFrame(g);
 		drawTitle(g);
-	}
-	
-	protected Event onEvent(Event ev) {
-		if(ev.type == Event.KEY && ev.value == lejos.hardware.Button.ID_ESCAPE) {
-			hide();
-			return null;
-		}
-		return ev;
 	}
 }

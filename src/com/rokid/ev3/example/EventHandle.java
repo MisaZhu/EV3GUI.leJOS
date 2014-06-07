@@ -1,7 +1,5 @@
 package com.rokid.ev3.example;
 
-import lejos.hardware.lcd.Font;
-
 import com.rokid.ev3.gui.*;
 
 class EHandler implements EventHandler {
@@ -13,13 +11,17 @@ class EHandler implements EventHandler {
 
 	public Event handle(View view, Event ev) {
 		if (ev.type == Event.GUI && ev.value == Event.PRESS) {
-			if (view.getName() == "quit") {
-				Demo.stopped = true;
-			} else if (view.getName() == "light") {
-				Demo.light++;
-				if (Demo.light >= 10)
-					Demo.light = 0;
-				desktop.getLED().light(Demo.light);
+			if (view.getName() == "win") {
+				Window w = new Window("sub");
+				w.moveTo(40, 40, 100,  100);
+				w.popup(Popup.CENTER);
+				w.addChild(new Label("Sub Window"));
+			} 
+			else if (view.getName() == "light") {
+				EventHandle.light++;
+				if (EventHandle.light >= 10)
+					EventHandle.light = 0;
+				desktop.getLED().light(EventHandle.light);
 			}
 		}
 		return ev;
@@ -28,23 +30,33 @@ class EHandler implements EventHandler {
 
 public class EventHandle {
 	public static int light = 0;
-	public static boolean stopped = false;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		Desktop desktop = Desktop.getDefault();
+		
+
+		/*Set a horizontal layout as the root view of desktop*/
+		LayoutH layout= new LayoutH();
+		desktop.setRoot(layout);
+
+		/*These two views will be layouted horizontally automatically*/
+		layout.addChild(new ImageButton("head.lni"));
+		LabelButton lb = new LabelButton("EV3 GUI");
+		layout.addChild(lb);
+		lb.focus();
+
+		
 		Window w = new Window("window");
-		desktop.setRoot(w);
 		w.setWorkspace(new LayoutV());
 		Container ws = w.getWorkspace();
-
+		
 		EHandler handler = new EHandler(desktop);
 
-		LabelButton v2 = new LabelButton("Quit");
-		v2.setFont(Font.getSmallFont());
-		v2.setName("quit");
+		LabelButton v2 = new LabelButton("Win");
+		v2.setName("win");
 		ws.addChild(v2);
 		v2.setHandler(handler);
 
@@ -59,7 +71,10 @@ public class EventHandle {
 		Label v4 = new Label("Light 0");
 		ws.addChild(v4);
 
-		while (!stopped) {
+		w.popup(Popup.FULLSCREEN);
+
+
+		while (true) {
 			v4.setLabel("light " + light);
 			desktop.refresh();
 			Event ev = desktop.eventHandle();
