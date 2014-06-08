@@ -1,6 +1,5 @@
 package com.rokid.ev3.gui;
 
-import lejos.hardware.lcd.Font;
 import lejos.hardware.lcd.GraphicsLCD;
 
 /**
@@ -23,9 +22,24 @@ public class Label extends View {
 	 */
 	public void setLabel(String label) {
 		this.label = label;
-		if(font != null && label != null) {
-			resizeTo(font.stringWidth(label), font.getHeight());
-		}
+	}
+	
+	/**
+	 * Get the width of string width current font
+	 */
+	public int getStringW() {
+		if(font == null || label == null)
+			return 0;
+		return font.stringWidth(label);
+	}
+	
+	/**
+	 * Get the width of string heigth current font
+	 */
+	public int getStringH() {
+		if(font == null || label == null)
+			return 0;
+		return font.getHeight();
 	}
 	
 	protected void draw(GraphicsLCD g) {

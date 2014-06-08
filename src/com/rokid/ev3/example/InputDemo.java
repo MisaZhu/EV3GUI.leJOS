@@ -14,8 +14,8 @@ class InputHandler implements EventHandler {
 			if(ev.intValue > 31)
 				label.setLabel(s += (char)ev.intValue);
 			else if(ev.intValue == VirtualKeyboard.DEL) {
-				if(len > 1)
-					label.setLabel(s.substring(0, len - 2));
+				if(len >= 1)
+					label.setLabel(s.substring(0, len - 1));
 				else
 					label.setLabel("");
 			}
@@ -45,6 +45,7 @@ public class InputDemo {
 			keyboard.setHandler(h);
 
 			label.setFont(Font.getDefaultFont());
+			label.resizeTo(20,  40);
 			label.fixedLayout();
 			layout.addChild(label);
 			layout.addChild(keyboard);
