@@ -28,8 +28,8 @@ public class Window extends Popup {
 	
 	void setWSSize() {
 		Rect r = getRect();
-		workspace.moveTo(0, fontTitle.height);
-		workspace.resizeTo(r.width, r.height - fontTitle.height);
+		workspace.moveTo(0, fontTitle.height+2);
+		workspace.resizeTo(r.width, r.height - fontTitle.height -2);
 	}
 	
 	public void setTitleFont(Font fnt) {
@@ -39,28 +39,14 @@ public class Window extends Popup {
 	protected void onResize() {
 		setWSSize();
 	}
-	
-	protected void drawFrame(GraphicsLCD g) {
-		g.setColor(255, 255, 255);
-		int w = getWidth();
-		int h = getHeight();
-		
-		fillRect(g, 0, 0, w-1, h-1);
-		g.setColor(0, 0, 0);
-		drawRect(g, 0, 0, w-1, h-1);
-		g.setStrokeStyle(GraphicsLCD.DOTTED);
-		drawLine(g, 3, h, w, h);
-		drawLine(g, w, 3, w, h);
-		g.setStrokeStyle(GraphicsLCD.SOLID);
-	}
 
 	protected void drawTitle(GraphicsLCD g) {
 		g.setColor(0, 0, 0);
 		int w = getWidth();
-		fillRect(g, 0, 0, w-1, fontTitle.height);
+		fillRect(g, 1, 1, w-2, fontTitle.height+1);
 		g.setFont(fontTitle);
 		g.setColor(255, 255, 255);
-		drawString(g, title, 0, 0, GraphicsLCD.TOP | GraphicsLCD.LEFT);
+		drawString(g, title, 1, 1, GraphicsLCD.TOP | GraphicsLCD.LEFT);
 	}
 	
 	protected void draw(GraphicsLCD g) {

@@ -9,10 +9,8 @@ import lejos.hardware.lcd.GraphicsLCD;
  */
 public class Label extends View {
 	String label = "";
-	Font font = null;
 	
 	public Label(String label) {
-		font = Font.getDefaultFont();
 		setLabel(label);
 	}
 	
@@ -25,16 +23,6 @@ public class Label extends View {
 	 */
 	public void setLabel(String label) {
 		this.label = label;
-		if(font != null && label != null) {
-			resizeTo(font.stringWidth(label), font.getHeight());
-		}
-	}
-	
-	/**
-	 * Set the font.
-	 */
-	public void setFont(Font font) {
-		this.font = font;
 		if(font != null && label != null) {
 			resizeTo(font.stringWidth(label), font.getHeight());
 		}

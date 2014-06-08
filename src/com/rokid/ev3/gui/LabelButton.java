@@ -10,7 +10,6 @@ import lejos.hardware.lcd.GraphicsLCD;
  */
 public class LabelButton extends Button {
 	String label = "";
-	Font font = null;
 	
 	/**
 	 * Get the label string
@@ -34,8 +33,8 @@ public class LabelButton extends Button {
 	}
 	
 	public LabelButton(String label) {
-		this.label = label;
-		font = Font.getDefaultFont();
+		setLabel(label);
+		resizeTo(font.stringWidth(label)+16, font.getHeight()+12);
 	}
 	
 	protected void draw(GraphicsLCD g) {

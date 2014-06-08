@@ -11,12 +11,12 @@ import lejos.hardware.lcd.GraphicsLCD;
  *
  */
 public class Container extends View {
-	Vector children = null;
+	Vector<View> children = null;
 	View focusedView = null;
 	
 	public Container() {
 		alive = true;
-		children = new Vector();
+		children = new Vector<View>();
 	}
 
 	public void refresh(GraphicsLCD g) {
@@ -25,8 +25,7 @@ public class Container extends View {
 		
 		super.refresh(g);
 		
-		for(int i= 0; i< children.size(); ++i) {
-			View v = (View)children.get(i);
+		for(View v : children) {
 			if(v != null) {
 				v.refresh(g);
 			}
@@ -163,8 +162,7 @@ public class Container extends View {
 	 * @return null if there is no such subview.
 	 */
 	public View getChild(String name) {
-		for(int i= 0; i< children.size(); ++i) {
-			View v = (View)children.get(i);
+		for(View v: children) {
 			if(v != null && v.name.equals(name)) {
 				return v;
 			}

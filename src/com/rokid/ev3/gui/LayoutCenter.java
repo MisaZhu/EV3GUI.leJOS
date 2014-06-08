@@ -7,9 +7,7 @@ package com.rokid.ev3.gui;
  */
 public class LayoutCenter extends Layout {
 	protected void layout() {
-		int num = children.size();
-		for(int i=0; i<num; ++i) {
-			View v = getChild(i);
+		for(View v: children) {
 			if(v != null && v.visable()) {
 				Rect r = v.getRect();
 				v.moveToLayout((rect.width - r.width) / 2,

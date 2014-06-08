@@ -4,18 +4,18 @@ import com.rokid.ev3.gui.*;
 
 class EHandler implements EventHandler {
 	Desktop desktop;
-	
-	EHandler(Desktop desktop) {
-		this.desktop = desktop;
-	}
+	Window win;
 
 	public Event handle(View view, Event ev) {
-		if (ev.type == Event.GUI && ev.value == Event.PRESS) {
-			if (view.getName() == "win") {
-				Window w = new Window("sub");
+		if (ev.type == Event.GUI_PRESS) {
+			if (view.getName() == "small") {
+				Window w = new Window("Sub");
 				w.moveTo(40, 40, 100,  100);
 				w.popup(Popup.CENTER);
-				w.addChild(new Label("Sub Window"));
+				w.getWorkspace().addChild(new Label("Sub Window"));
+			} 
+			else if (view.getName() == "win") {
+				win.popup(Popup.FULLSCREEN);
 			} 
 			else if (view.getName() == "light") {
 				EventHandle.light++;
@@ -36,31 +36,30 @@ public class EventHandle {
 	 */
 	public static void main(String[] args) {
 		Desktop desktop = Desktop.getDefault();
-		
+		EHandler handler = new EHandler();
+		handler.desktop = desktop;
 
-		/*Set a horizontal layout as the root view of desktop*/
-		LayoutH layout= new LayoutH();
+		LayoutCenter layout= new LayoutCenter();
 		desktop.setRoot(layout);
 
 		/*These two views will be layouted horizontally automatically*/
-		layout.addChild(new ImageButton("head.lni"));
-		LabelButton lb = new LabelButton("EV3 GUI");
+		LabelButton lb = new LabelButton("Open Window");
 		layout.addChild(lb);
+		lb.setName("win");
+		lb.setHandler(handler);
 		lb.focus();
 
 		
 		Window w = new Window("window");
+		handler.win = w;
 		w.setWorkspace(new LayoutV());
 		Container ws = w.getWorkspace();
 		
-		EHandler handler = new EHandler(desktop);
 
-		LabelButton v2 = new LabelButton("Win");
-		v2.setName("win");
+		LabelButton v2 = new LabelButton("SmallWin");
+		v2.setName("small");
 		ws.addChild(v2);
 		v2.setHandler(handler);
-
-		ws.addChild(new Space(10));
 
 		Button v3 = new LabelButton("Light");
 		v3.setName("light");
@@ -71,14 +70,14 @@ public class EventHandle {
 		Label v4 = new Label("Light 0");
 		ws.addChild(v4);
 
-		w.popup(Popup.FULLSCREEN);
+		//w.popup(Popup.FULLSCREEN);
 
 
 		while (true) {
 			v4.setLabel("light " + light);
 			desktop.refresh();
 			Event ev = desktop.eventHandle();
-			if(ev != null && ev.is(Event.KEY, Keyboard.ESC))
+			if(ev != null && ev.type == Event.KEY_PRESS && ev.intValue == BrickButton.ESC)
 				break;
 		}
 	}

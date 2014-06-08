@@ -12,8 +12,8 @@ import lejos.hardware.lcd.GraphicsLCD;
 
 public class Button extends View {
 	protected Event onEvent(Event ev) {
-		if(ev.type == Event.KEY && ev.value == lejos.hardware.Button.ID_ENTER) {
-			return new Event(Event.GUI, Event.PRESS);
+		if(ev.type == Event.KEY_PRESS && ev.intValue == lejos.hardware.Button.ID_ENTER) {
+			return new Event(Event.GUI_PRESS, 0);
 		}
 		return ev;
 	}

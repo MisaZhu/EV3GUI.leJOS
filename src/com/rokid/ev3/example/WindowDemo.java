@@ -22,7 +22,7 @@ public class WindowDemo {
 		while (true) {
 			desktop.refresh();
 			Event ev = desktop.eventHandle();
-			if(ev != null && ev.is(Event.KEY, Keyboard.ESC))
+			if(ev != null && ev.type == Event.KEY_PRESS && ev.intValue == BrickButton.ESC)
 				break;
 		}
 	}

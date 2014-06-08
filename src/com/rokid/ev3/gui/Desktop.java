@@ -1,6 +1,5 @@
 package com.rokid.ev3.gui;
 
-import java.util.Iterator;
 import java.util.Stack;
 
 import lejos.hardware.Brick;
@@ -15,18 +14,18 @@ import lejos.hardware.lcd.GraphicsLCD;
 public class Desktop {
 	GraphicsLCD g;
 	Brick brick;
-	Container root = null;
-	Keyboard kerboard;
+	View root = null;
+	BrickButton kerboard;
 	LED led;
-	Stack popups = null;
+	Stack<View> popups = null;
 	
 	static Desktop desktop = null;
 
 	Desktop(Brick brick) {
 		this.g = brick.getGraphicsLCD();
-		kerboard = new Keyboard();
+		kerboard = new BrickButton();
 		led = new LED();
-		popups = new Stack();
+		popups = new Stack<View>();
 	}
 	
 	/**
@@ -49,15 +48,15 @@ public class Desktop {
 	/**
 	 * Get the keyboard instance of local brick.
 	 */
-	public Keyboard getKeyboard() {
+	public BrickButton getKeyboard() {
 		return this.kerboard;
 	}
 	
 	/**
 	 * Set the root view of this desktop.
 	 */
-	public void setRoot(Container c) {
-		root = c;
+	public void setRoot(View v) {
+		root = v;
 		root.resizeTo(getWidth(), getHeight());
 		root.focus();
 	}
@@ -71,9 +70,7 @@ public class Desktop {
 			root.refresh(g);
 		}
 		
-		Iterator it = popups.iterator();
-		while(it.hasNext()) {
-			Popup popup = (Popup)it.next();
+		for(View popup: popups) {
 			if(popup != null)
 				popup.refresh(g);
 		}
@@ -82,7 +79,7 @@ public class Desktop {
 	/**
 	 * Get root view of this desktop.
 	 */
-	public Container getRoot() {
+	public View getRoot() {
 		return root;
 	}
 	
@@ -98,8 +95,9 @@ public class Desktop {
 	 * Catch and handle the event, includes Keyboard and GUI.
 	 */
 	public Event eventHandle() {
-		int k = desktop.getKeyboard().waitForAnyEvent(); 	
-		Event ev = new Event(Event.KEY, k);
+		Event ev = desktop.getKeyboard().waitForAnyEvent(); 	
+		if(ev == null)
+			return null;
 		
 		View focused = null;
 		
@@ -112,9 +110,14 @@ public class Desktop {
 			}
 		}
 		if(ev != null && root != null) {
-			focused = root.getFocused();
-			if(focused != null)
+			if(root instanceof Container)
+				focused = ((Container)root).getFocused();
+			else 
+				focused = root;
+			
+			if(focused != null) {
 				ev = focused.eventHandle(ev);
+			}
 		}
 		return ev;
 	}

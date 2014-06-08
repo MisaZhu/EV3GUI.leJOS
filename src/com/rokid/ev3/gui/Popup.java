@@ -1,5 +1,7 @@
 package com.rokid.ev3.gui;
 
+import lejos.hardware.lcd.GraphicsLCD;
+
 /**
  * Popup class for popup upon the desktop and catch all keyboard events.
  * @author Misa.Z
@@ -91,10 +93,31 @@ public class Popup extends Container {
 	}
 
 	protected Event onEvent(Event ev) {
-		if(ev.type == Event.KEY && ev.value == lejos.hardware.Button.ID_ESCAPE) {
+		if(ev.type == Event.KEY_PRESS && ev.intValue == lejos.hardware.Button.ID_ESCAPE) {
 			close();
 			return null;
 		}
 		return ev;
+	}
+
+	protected void drawFrame(GraphicsLCD g) {
+		int w = getWidth();
+		int h = getHeight();
+		
+		/*background*/
+		g.setColor(255, 255, 255);
+		fillRect(g, 0, 0, w-1, h-1);
+		
+		/*frame*/
+		g.setColor(0, 0, 0);
+		drawRect(g, 0, 0, w-1, h-1);
+		
+		/*shadow*/
+		g.setStrokeStyle(GraphicsLCD.DOTTED);
+		drawLine(g, 3, h, w, h);
+		drawLine(g, w, 3, w, h);
+		drawLine(g, 4, h+1, w, h+1);
+		drawLine(g, w+1, 4, w+1, h);
+		g.setStrokeStyle(GraphicsLCD.SOLID);
 	}
 }

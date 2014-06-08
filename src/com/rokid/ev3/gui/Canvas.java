@@ -1,10 +1,19 @@
 package com.rokid.ev3.gui;
 
+import lejos.hardware.lcd.Font;
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.lcd.Image;
 
 public abstract class Canvas {
 	protected Rect rect = null;
+	protected Font font = Font.getSmallFont();
+	
+	/**
+	 * Set the font.
+	 */
+	public void setFont(Font font) {
+		this.font = font;
+	}
 
 	Canvas() {
 		rect = new Rect();
@@ -82,9 +91,17 @@ public abstract class Canvas {
 	 * Draw functions in inside coordinate system
 	 */
 	protected void drawString(GraphicsLCD g, String str, int x, int y, int anchor) {
-		g.drawString(str, x+getAX(), y+getAY(), anchor);
+		drawString(g, str, x, y, anchor, false);
 	}
 	
+
+	protected void drawString(GraphicsLCD g, String str, int x, int y, int anchor, boolean invert) {
+		/*something wrong with anchor VCENTER in this version of leJOS, so I do ugly way*/
+		if((anchor & GraphicsLCD.VCENTER) != 0) {
+			y -= g.getFont().getHeight() / 2;
+		}
+		g.drawString(str, x+getAX(), y+getAY(), anchor, invert);
+	}
 	protected void drawRoundRect(GraphicsLCD g, int x, int y, int w, int h, int arcWidth, int arcHeight) {
 		g.drawRoundRect(x+getAX(), y+getAY(), w, h, arcWidth, arcHeight);
 	}

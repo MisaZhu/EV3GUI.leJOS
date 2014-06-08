@@ -8,12 +8,12 @@ package com.rokid.ev3.gui;
 public class LayoutH extends Layout {
 
 	protected Event onEvent(Event ev) {
-		if(ev.type == Event.KEY) {	
-			if(ev.value == lejos.hardware.Button.ID_RIGHT) {
+		if(ev.type == Event.KEY_PRESS) {	
+			if(ev.intValue == lejos.hardware.Button.ID_RIGHT) {
 				focusNext();
 				return null;
 			}
-			else if(ev.value == lejos.hardware.Button.ID_LEFT) {
+			else if(ev.intValue == lejos.hardware.Button.ID_LEFT) {
 				focusPre();
 				return null;
 			}
@@ -23,15 +23,12 @@ public class LayoutH extends Layout {
 	
 
 	protected void layout() {
-		
-		int num = children.size();
 		int lnum = 0; // numbers of dynamic size kids
 		
 		int lw = rect.width;
 		int h = rect.height;
 		
-		for(int i=0; i<num; ++i) {
-			View v = getChild(i);
+		for(View v: children) {
 			if(v != null && v.visable()) {
 				if(v.fixedLayout) {
 					lw -= v.getRect().width;
@@ -48,8 +45,8 @@ public class LayoutH extends Layout {
 		}
 		
 		int x = 0;
-		for(int i=0; i<num; ++i) {
-			View v = getChild(i);
+
+		for(View v: children) {
 			if(v != null && v.visable()) {
 				v.moveToLayout(x, 0);
 				if(v.fixedLayout) {
