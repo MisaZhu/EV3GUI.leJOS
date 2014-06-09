@@ -45,11 +45,12 @@ public class Label extends View {
 	protected void draw(GraphicsLCD g) {
 		if(font == null || label == null)
 			return;
+		Size size = getSize();
 		
 		g.setColor(0, 0, 0);
 		
 		g.setFont(font);
-		drawString(g, label, getWidth()/2, getHeight()/2,
+		drawString(g, label, size.w/2, size.h/2,
 				GraphicsLCD.VCENTER | GraphicsLCD.HCENTER);
 	}
 }

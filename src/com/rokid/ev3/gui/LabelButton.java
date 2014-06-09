@@ -41,10 +41,11 @@ public class LabelButton extends Button {
 		super.draw(g);
 		if(font == null || label == null)
 			return;
+		Size size = getSize();
 
 		g.setFont(font);
 		g.setColor(0, 0, 0);
-		drawString(g, label, getWidth()/2, getHeight()/2,
+		drawString(g, label, size.w/2, size.h/2,
 				GraphicsLCD.VCENTER | GraphicsLCD.HCENTER);
 	}
 }

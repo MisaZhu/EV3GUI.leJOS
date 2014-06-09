@@ -73,7 +73,8 @@ public class Popup extends Container {
 		if(desk == null) {
 			desk = Desktop.getDefault();
 		}
-		moveTo(0, 0, desk.getWidth(), desk.getHeight());
+		Size size = desk.getSize();
+		moveTo(0, 0, size.w, size.h);
 	}
 	
 	/**
@@ -84,12 +85,11 @@ public class Popup extends Container {
 		if(desk == null) {
 			desk = Desktop.getDefault();
 		}
-		int dw = desk.getWidth();
-		int dh = desk.getHeight();
-		int w = getWidth();
-		int h = getHeight();
 		
-		moveTo((dw-w)/2, (dh-h)/2);
+		Size dSize = desk.getSize();
+		Size size = getSize();
+		
+		moveTo((dSize.w-size.w)/2, (dSize.h-size.h)/2);
 	}
 
 	protected Event onEvent(Event ev) {
@@ -101,8 +101,9 @@ public class Popup extends Container {
 	}
 
 	protected void drawFrame(GraphicsLCD g) {
-		int w = getWidth();
-		int h = getHeight();
+		Size size = getSize();
+		int w = size.w;
+		int h = size.h;
 		
 		/*background*/
 		g.setColor(255, 255, 255);

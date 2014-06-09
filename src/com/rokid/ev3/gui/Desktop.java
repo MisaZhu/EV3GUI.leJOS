@@ -57,7 +57,8 @@ public class Desktop {
 	 */
 	public void setRoot(View v) {
 		root = v;
-		root.resizeTo(getWidth(), getHeight());
+		Size size = getSize();
+		root.resizeTo(size.w, size.h);
 		root.focus();
 	}
 	
@@ -83,12 +84,8 @@ public class Desktop {
 		return root;
 	}
 	
-	public int getWidth() {
-		return g.getWidth();
-	}
-	
-	public int getHeight() {
-		return g.getHeight();
+	public Size getSize() {
+		return new Size(g.getWidth(), g.getHeight());
 	}
 	
 	/**

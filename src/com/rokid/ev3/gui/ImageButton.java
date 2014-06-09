@@ -59,8 +59,9 @@ public class ImageButton extends Button {
 	protected void draw(GraphicsLCD g) {
 		if(image == null)
 			return;
+		Size size = getSize();
 		
-		drawImage(g, image, getWidth()/2, getHeight()/2,
+		drawImage(g, image, size.w/2, size.h/2,
 				GraphicsLCD.VCENTER | GraphicsLCD.HCENTER);
 	}
 }

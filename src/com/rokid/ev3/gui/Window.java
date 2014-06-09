@@ -42,8 +42,8 @@ public class Window extends Popup {
 
 	protected void drawTitle(GraphicsLCD g) {
 		g.setColor(0, 0, 0);
-		int w = getWidth();
-		fillRect(g, 1, 1, w-2, fontTitle.height+1);
+		Size size = getSize();
+		fillRect(g, 1, 1, size.w-2, fontTitle.height+1);
 		g.setFont(fontTitle);
 		g.setColor(255, 255, 255);
 		drawString(g, title, 1, 1, GraphicsLCD.TOP | GraphicsLCD.LEFT);

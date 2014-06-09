@@ -188,7 +188,6 @@ public class View extends Canvas {
 		return ev;
 	}
 	
-
 	protected GraphicsLCD getGraph() {
 		GraphicsLCD g = null;
 		return g;

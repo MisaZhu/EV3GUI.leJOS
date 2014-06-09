@@ -21,8 +21,9 @@ public class ButtonBoard extends View {
 	protected String escLabel = "ESC";
 	
 	protected void onResize() {
-		buttonW = (getWidth() - 2*space )/3;
-		buttonH = (getHeight() - 2*space )/3;
+		Size size = getSize();
+		buttonW = (size.w - 2*space )/3;
+		buttonH = (size.h - 2*space )/3;
 	}
 	
 	protected void drawLeft(GraphicsLCD g) {

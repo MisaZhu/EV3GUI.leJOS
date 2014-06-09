@@ -19,24 +19,14 @@ public class Button extends View {
 	}
 	
 	protected void draw(GraphicsLCD g) {
-		/*Rect ar = getARect();
 		g.setColor(0, 0, 0);
+		Size size = getSize();
 
-		g.drawRoundRect(ar.x, ar.y, ar.width, ar.height, 8, 8);
-		
-		if(focused()) {
-			g.drawRoundRect(ar.x+3, ar.y+3, ar.width-6, ar.height-6, 6, 6);
-		}*/
-		
-		g.setColor(0, 0, 0);
-		int w = getWidth();
-		int h = getHeight();
-
-		drawRoundRect(g, 0, 0, w-1, h-1, 8, 8);
+		drawRoundRect(g, 0, 0, size.w-1, size.h-1, 8, 8);
 		
 		if(focused()) {
 			g.setStrokeStyle(GraphicsLCD.DOTTED);
-			drawRoundRect(g, 3, 3, w-7, h-7, 6, 6);
+			drawRoundRect(g, 3, 3, size.w-7, size.h-7, 6, 6);
 			g.setStrokeStyle(GraphicsLCD.SOLID);
 		}
 	}

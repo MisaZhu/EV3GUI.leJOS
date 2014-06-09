@@ -135,8 +135,9 @@ public class VirtualKeyboard extends View {
 		
 		g.setColor(0);
 		
-		int kw = getWidth() / cols;
-		int kh = getHeight() / rows;
+		Size size = getSize();
+		int kw = size.w / cols;
+		int kh = size.h / rows;
 		
 		for(int y = 0; y < rows; ++y) {
 			for(int x = 0; x < cols; ++x) {

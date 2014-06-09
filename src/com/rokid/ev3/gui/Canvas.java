@@ -38,12 +38,8 @@ public abstract class Canvas {
 		return new Rect(ax, ay, rect.width, rect.height);
 	}
 	
-	public int getWidth() {
-		return rect.width;
-	}
-	
-	public int getHeight() {
-		return rect.height;
+	public Size getSize() {
+		return new Size(rect.width, rect.height);
 	}
 	
 	protected void onResize() {
@@ -131,5 +127,26 @@ public abstract class Canvas {
 		int ay = getAY();
 		
 		g.drawLine(x0+ax, y0+ay, x1+ax, y1+ay);
+	}
+	
+	protected void drawRadius(GraphicsLCD g, double percent, int x, int y,
+            int minRadius, int maxRadius) {
+		//... percent parameter is the fraction (0.0 - 1.0) of the way
+		//    clockwise from 12.   Because the Graphics2D methods use radians
+		//    counterclockwise from 3, a little conversion is necessary.
+		//    It took a little experimentation to get this right.
+		x += getAX();
+		y += getAY();
+		
+		double radians = (0.5 - percent) * Math.PI * 2;
+		double sine   = Math.sin(radians);
+		double cosine = Math.cos(radians);
+		
+		int dxmin = x + (int)(minRadius * sine);
+		int dymin = y + (int)(minRadius * cosine);
+		
+		int dxmax = x + (int)(maxRadius * sine);
+		int dymax = y + (int)(maxRadius * cosine);
+		g.drawLine(dxmin, dymin, dxmax, dymax);
 	}
 }
