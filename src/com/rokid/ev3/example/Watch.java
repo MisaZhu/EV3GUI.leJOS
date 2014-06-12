@@ -1,11 +1,26 @@
 package com.rokid.ev3.example;
 
 import lejos.utility.Delay;
+import lejos.utility.Timer;
+import lejos.utility.TimerListener;
 
 import com.rokid.ev3.gui.*;
 
-public class Watch {
+class TimerL implements TimerListener {
+	Dial m = null;
+	Desktop desktop = null;
+	int h = 0;
+	public void timedOut() {
+		if(m != null && desktop != null) {
+			m.read(h * 6);
+			desktop.refresh();
+		}
+		h++;
+	}
+}
 
+public class Watch {
+	
 	public static void main(String[] args) {
 		/*Create a local brick desktop*/
 		Desktop desktop = Desktop.getDefault();
@@ -17,12 +32,15 @@ public class Watch {
 		m.setGraduations(12);
 		
 		layout.addChild(m);
-		//layout.addChild(new Label("Clock"));
-		int h = 0;
-		while(true) {
-			desktop.refresh();
-			m.read(h++ * 6);
-			Delay.msDelay(1000);
-		}
+
+		TimerL tl = new TimerL();
+		tl.m = m;
+		tl.desktop = desktop;
+		
+		Timer timer = new Timer(1000, tl);
+		timer.start();
+		
+		desktop.eventHandle();
+		timer.stop();
 	}
 }
