@@ -37,7 +37,7 @@ public class InputDemo {
 
 			InputMethod keyboard = new InputMethod();
 			//keyboard.addKeyboard("abcdefghijklmnopqrstuvwxyz@._()".toCharArray(), 8);
-			keyboard.addKeyboard("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRETUVWXYZ.@_-*?".toCharArray(), 10);
+			keyboard.addKeyboard("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.@_-*?".toCharArray(), 10);
 			keyboard.addKeyboard("123456789-0.".toCharArray(), 3);
 			keyboard.addKeyboard("@.-=_+,'\"?/\\<>|(){}[]!#$%&*".toCharArray(), 8);
 			InputHandler h = new InputHandler();
